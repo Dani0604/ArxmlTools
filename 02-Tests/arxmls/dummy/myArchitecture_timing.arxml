@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Auto generated XML Component Description for model myArchitecture
+Model version                : 1.5
+Simulink Coder version       : Simulink Coder 9.8 (R2022b) 13-May-2022
+XML source code generated on : Fri Aug 16 14:59:48 2024
+Model Checksum               : 2700282722 1338902938 392374028 2143568318
+-->
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd">
+    <AR-PACKAGES>
+        <AR-PACKAGE>
+            <SHORT-NAME>Timing</SHORT-NAME>
+            <ELEMENTS>
+                <VFB-TIMING UUID="251437cc-5633-52bc-a61d-581e2b2dba72">
+                    <SHORT-NAME>untitled_timing</SHORT-NAME>
+                    <TIMING-REQUIREMENTS>
+                        <EXECUTION-ORDER-CONSTRAINT UUID="0c88cb71-b4e7-507b-e285-fd0157e6fcb9">
+                            <SHORT-NAME>EOC</SHORT-NAME>
+                            <BASE-COMPOSITION-REF DEST="COMPOSITION-SW-COMPONENT-TYPE">/Components/untitled</BASE-COMPOSITION-REF>
+                            <ORDERED-ELEMENTS>
+                                <EOC-EXECUTABLE-ENTITY-REF UUID="d668cd3e-0fd7-5a49-b32b-3024e09993bd">
+                                    <SHORT-NAME>Component_Component_Step</SHORT-NAME>
+                                    <COMPONENT-IREF>
+                                        <TARGET-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Components/untitled/Component</TARGET-COMPONENT-REF>
+                                    </COMPONENT-IREF>
+                                    <EXECUTABLE-REF DEST="RUNNABLE-ENTITY">/Components/Component/Component_IB/Component_Step</EXECUTABLE-REF>
+                                    <SUCCESSOR-REFS>
+                                        <SUCCESSOR-REF DEST="EOC-EXECUTABLE-ENTITY-REF">/Timing/untitled_timing/EOC/Component1_Component1_Step</SUCCESSOR-REF>
+                                    </SUCCESSOR-REFS>
+                                </EOC-EXECUTABLE-ENTITY-REF>
+                                <EOC-EXECUTABLE-ENTITY-REF UUID="cd7ca9ba-1fc8-5c39-d8a7-b80677b767c5">
+                                    <SHORT-NAME>Component1_Component1_Step</SHORT-NAME>
+                                    <COMPONENT-IREF>
+                                        <TARGET-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Components/untitled/Component1</TARGET-COMPONENT-REF>
+                                    </COMPONENT-IREF>
+                                    <EXECUTABLE-REF DEST="RUNNABLE-ENTITY">/Components/Component1/Component1_IB/Component1_Step</EXECUTABLE-REF>
+                                </EOC-EXECUTABLE-ENTITY-REF>
+                            </ORDERED-ELEMENTS>
+                        </EXECUTION-ORDER-CONSTRAINT>
+                    </TIMING-REQUIREMENTS>
+                    <COMPONENT-REF DEST="COMPOSITION-SW-COMPONENT-TYPE">/Components/untitled</COMPONENT-REF>
+                </VFB-TIMING>
+            </ELEMENTS>
+        </AR-PACKAGE>
+    </AR-PACKAGES>
+</AUTOSAR>

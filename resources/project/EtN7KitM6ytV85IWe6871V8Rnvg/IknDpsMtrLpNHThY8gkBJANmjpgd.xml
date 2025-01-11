@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Info>
+    <Files>
+        <File path="+logging/CommandWindowLogger.m" value="66ccfdb2"/>
+        <File path="+logging/DefaultLoggableClass.m" value="32e88df"/>
+        <File path="+logging/ILoggable.m" value="87dc6274"/>
+        <File path="+logging/ILogger.m" value="10f1a19f"/>
+        <File path="+logging/LogEvent.m" value="a05e2e5f"/>
+        <File path="+logging/LogEventFactory.m" value="3d7e9e1c"/>
+        <File path="+logging/Severity.m" value="f21d1904"/>
+        <File path="+logging/UITextAreaLogger.asv" value="b0248fa1"/>
+        <File path="+logging/UITextAreaLogger.m" value="8dbd412f"/>
+        <File path="+logging" value="-1"/>
+        <File path=".gitattributes" value="d53a431e"/>
+        <File path=".gitignore" value="68bd6b9a"/>
+        <File path="Logging.prj" value="fe84b66d"/>
+        <File path="Tests/logging/ILoggableTests.m" value="2e2c0d6f"/>
+        <File path="Tests/logging/ILoggerTests.m" value="10da14ac"/>
+        <File path="Tests/logging/LogEventFactoryTests.m" value="b0af1464"/>
+        <File path="Tests/logging/helperClasses/LoggableClass.m" value="ec19bcc2"/>
+        <File path="Tests/logging/helperClasses/LoggerClass.m" value="8297b1e"/>
+        <File path="Tests/logging/helperClasses" value="-1"/>
+        <File path="Tests/logging" value="-1"/>
+        <File path="Tests" value="-1"/>
+        <File path="resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/0dKaEc5bgz9U0VdqAEnOTSUGFHwd.xml" value="50727024"/>
+        <File path="resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/0dKaEc5bgz9U0VdqAEnOTSUGFHwp.xml" value="873c136a"/>
+        <File path="resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/9e3bSsEttT370ipsBY8UeuRRebsd.xml" value="b46efcdb"/>
+        <File path="resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/9e3bSsEttT370ipsBY8UeuRRebsp.xml" value="1af0598"/>
+        <File path="resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/QSjaKqROKihNhUDf0tvmziub7VMd.xml" value="d8da769c"/>
+        <File path="resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/QSjaKqROKihNhUDf0tvmziub7VMp.xml" value="265cf4fc"/>
+        <File path="resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/yUUKSxN0A93FEtGxg6kJvAZTjbsd.xml" value="3fb29260"/>
+        <File path="resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA/yUUKSxN0A93FEtGxg6kJvAZTjbsp.xml" value="98104576"/>
+        <File path="resources/project/EEtUlUb-dLAdf0KpMVivaUlztwA" value="-1"/>
+        <File path="resources/project/ITZf8vdWhnYVCBGRpxMXAhIUUEI/STT3C2tG2HAJ1WTs2ukscwGoqOAd.xml" value="b62b63f9"/>
+        <File path="resources/project/ITZf8vdWhnYVCBGRpxMXAhIUUEI/STT3C2tG2HAJ1WTs2ukscwGoqOAp.xml" value="60a23a3a"/>
+        <File path="resources/project/ITZf8vdWhnYVCBGRpxMXAhIUUEI/hWkzo2YVhcvujI0HM-JJs95dKUkd.xml" value="ea65cf7"/>
+        <File path="resources/project/ITZf8vdWhnYVCBGRpxMXAhIUUEI/hWkzo2YVhcvujI0HM-JJs95dKUkp.xml" value="2450daaa"/>
+        <File path="resources/project/ITZf8vdWhnYVCBGRpxMXAhIUUEI/ndf54qn9_pE4bhc2g5xfZnd1DZQd.xml" value="ea65cf7"/>
+        <File path="resources/project/ITZf8vdWhnYVCBGRpxMXAhIUUEI/ndf54qn9_pE4bhc2g5xfZnd1DZQp.xml" value="b5eca194"/>
+        <File path="resources/project/ITZf8vdWhnYVCBGRpxMXAhIUUEI" value="-1"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/2kj09UetkV_lru3gvSPXnY6-nM4d.xml" value="6f44c339"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/2kj09UetkV_lru3gvSPXnY6-nM4p.xml" value="afe046a3"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/KKyDJtbdIBOlaeHmIZd5VX6vqx8d.xml" value="8ec7761"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/KKyDJtbdIBOlaeHmIZd5VX6vqx8p.xml" value="3a4507bf"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/QWNDYJD5mGW1bWYvPx9DtKnxzw4d.xml" value="31e4aeae"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/QWNDYJD5mGW1bWYvPx9DtKnxzw4p.xml" value="8739a8f2"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/R1RggVhA72agIvELiuhWPRS8F0Id.xml" value="7da44016"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/R1RggVhA72agIvELiuhWPRS8F0Ip.xml" value="28d99701"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/aEHSZBIY-yve10yGis12Zr5DLZod.xml" value="61c82899"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/aEHSZBIY-yve10yGis12Zr5DLZop.xml" value="cd91d98b"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/j4xwF_j8iFTVayUMfxLgMnTbencd.xml" value="2b42a78c"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/j4xwF_j8iFTVayUMfxLgMnTbencp.xml" value="e8544baf"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/r8LR4nLmg9ai3oHrW1r_-KocQzkd.xml" value="a6e6bc42"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs/r8LR4nLmg9ai3oHrW1r_-KocQzkp.xml" value="45d239ae"/>
+        <File path="resources/project/NjSPEMsIuLUyIpr2u1Js5bVPsOs" value="-1"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/0RWSjMoSA-B5UFl85wVNoqDlIqod.xml" value="906eca63"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/0RWSjMoSA-B5UFl85wVNoqDlIqop.xml" value="6a18a128"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/ITZf8vdWhnYVCBGRpxMXAhIUUEId.xml" value="b62b63f9"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/ITZf8vdWhnYVCBGRpxMXAhIUUEIp.xml" value="854eb411"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/Ifg6FzrTBn1wED67JsQYgKHBhZsd.xml" value="b62b63f9"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/Ifg6FzrTBn1wED67JsQYgKHBhZsp.xml" value="60a23a3a"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/dt78hjMivD8f-ADm_oNshdXVauAd.xml" value="906eca63"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/dt78hjMivD8f-ADm_oNshdXVauAp.xml" value="80952679"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/eFKxQQDux6hm5xzLZ_yi8X0KXRsd.xml" value="906eca63"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E/eFKxQQDux6hm5xzLZ_yi8X0KXRsp.xml" value="4e1afb38"/>
+        <File path="resources/project/PEQ0w5u5nlHH5xZVWDONlldCK_E" value="-1"/>
+        <File path="resources/project/Project.xml" value="1246079c"/>
+        <File path="resources/project/fjRQtWiSIy7hIlj-Kmk87M7s21k/NjSPEMsIuLUyIpr2u1Js5bVPsOsd.xml" value="ecb9c290"/>
+        <File path="resources/project/fjRQtWiSIy7hIlj-Kmk87M7s21k/NjSPEMsIuLUyIpr2u1Js5bVPsOsp.xml" value="9b1a20ad"/>
+        <File path="resources/project/fjRQtWiSIy7hIlj-Kmk87M7s21k" value="-1"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/D-8QHKuLxvP7ML7XvOO9JYiH_34d.xml" value="ea65cf7"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/D-8QHKuLxvP7ML7XvOO9JYiH_34p.xml" value="77a407d0"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/Jpwz82-212y1gXlY48cSlQjaujYd.xml" value="ea65cf7"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/Jpwz82-212y1gXlY48cSlQjaujYp.xml" value="25bc2807"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/K5E9x2NT4hL56UBm6d994JZfcQ0d.xml" value="ea65cf7"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/K5E9x2NT4hL56UBm6d994JZfcQ0p.xml" value="72718020"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/Sgac0UseFdBjQGwdjPbzjk3smB0d.xml" value="ea65cf7"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/Sgac0UseFdBjQGwdjPbzjk3smB0p.xml" value="e3eda533"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/UCCJhsqiuZpYHYvFXI8CTt8MzGYd.xml" value="ea65cf7"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/UCCJhsqiuZpYHYvFXI8CTt8MzGYp.xml" value="925e4bb5"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/UJtSlVIkNTIOyASHe299iv1WO3Ad.xml" value="ea65cf7"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/UJtSlVIkNTIOyASHe299iv1WO3Ap.xml" value="2ad157d7"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/XmA7q3gTwg2kFCRL3QtQtZyLeF8d.xml" value="ea65cf7"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/XmA7q3gTwg2kFCRL3QtQtZyLeF8p.xml" value="3f999c2a"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/eor61U7nEpCEmaZOV5MKKfS-BaMd.xml" value="ea65cf7"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/eor61U7nEpCEmaZOV5MKKfS-BaMp.xml" value="1c3a356d"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/jtvxlDB3Xa74ciDVxfWJjLWa6IAd.xml" value="b62b63f9"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/jtvxlDB3Xa74ciDVxfWJjLWa6IAp.xml" value="31ef2f7a"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/sb5gujLYtDMySNZrK3va0bpUxLod.xml" value="b62b63f9"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs/sb5gujLYtDMySNZrK3va0bpUxLop.xml" value="60a23a3a"/>
+        <File path="resources/project/itQ59UW5Q5mkTvviixxq_6QKkVs" value="-1"/>
+        <File path="resources/project/l-puU0yAZscMqVEpKH6b0Twiu_s/PEQ0w5u5nlHH5xZVWDONlldCK_Ed.xml" value="b62b63f9"/>
+        <File path="resources/project/l-puU0yAZscMqVEpKH6b0Twiu_s/PEQ0w5u5nlHH5xZVWDONlldCK_Ep.xml" value="7866eee5"/>
+        <File path="resources/project/l-puU0yAZscMqVEpKH6b0Twiu_s/pMZg5Ioo5VUZrjfbud865u1El8Id.xml" value="b62b63f9"/>
+        <File path="resources/project/l-puU0yAZscMqVEpKH6b0Twiu_s/pMZg5Ioo5VUZrjfbud865u1El8Ip.xml" value="60a23a3a"/>
+        <File path="resources/project/l-puU0yAZscMqVEpKH6b0Twiu_s" value="-1"/>
+        <File path="resources/project/qaw0eS1zuuY1ar9TdPn1GMfrjbQ/TMK4UzWHdRLhy_w-CHt9y11Q8XAd.xml" value="b62b63f9"/>
+        <File path="resources/project/qaw0eS1zuuY1ar9TdPn1GMfrjbQ/TMK4UzWHdRLhy_w-CHt9y11Q8XAp.xml" value="c3e12844"/>
+        <File path="resources/project/qaw0eS1zuuY1ar9TdPn1GMfrjbQ/itQ59UW5Q5mkTvviixxq_6QKkVsd.xml" value="b62b63f9"/>
+        <File path="resources/project/qaw0eS1zuuY1ar9TdPn1GMfrjbQ/itQ59UW5Q5mkTvviixxq_6QKkVsp.xml" value="cbb45c08"/>
+        <File path="resources/project/qaw0eS1zuuY1ar9TdPn1GMfrjbQ/l-puU0yAZscMqVEpKH6b0Twiu_sd.xml" value="b62b63f9"/>
+        <File path="resources/project/qaw0eS1zuuY1ar9TdPn1GMfrjbQ/l-puU0yAZscMqVEpKH6b0Twiu_sp.xml" value="4c36ab93"/>
+        <File path="resources/project/qaw0eS1zuuY1ar9TdPn1GMfrjbQ/qD-kr16wmwlzR-nIg1IG_vvRrWkd.xml" value="b62b63f9"/>
+        <File path="resources/project/qaw0eS1zuuY1ar9TdPn1GMfrjbQ/qD-kr16wmwlzR-nIg1IG_vvRrWkp.xml" value="e98115fd"/>
+        <File path="resources/project/qaw0eS1zuuY1ar9TdPn1GMfrjbQ" value="-1"/>
+        <File path="resources/project/root/6x1BhZX_fLnKpcwqra0qFwv1jIgp.xml" value="aedb31da"/>
+        <File path="resources/project/root/EEtUlUb-dLAdf0KpMVivaUlztwAp.xml" value="429cb5d6"/>
+        <File path="resources/project/root/GiiBklLgTxteCEmomM8RCvWT0nQd.xml" value="d38c8b35"/>
+        <File path="resources/project/root/GiiBklLgTxteCEmomM8RCvWT0nQp.xml" value="c5cdc4a7"/>
+        <File path="resources/project/root/KAXfQgCar2Yb8zOxgvf9hdmLP1Ep.xml" value="a7c5a64c"/>
+        <File path="resources/project/root/NmGqIpAwUJcXFyLjFAGnU9uyN5Yp.xml" value="ac054281"/>
+        <File path="resources/project/root/fjRQtWiSIy7hIlj-Kmk87M7s21kp.xml" value="dc68b16d"/>
+        <File path="resources/project/root/qaw0eS1zuuY1ar9TdPn1GMfrjbQp.xml" value="ee2fc10d"/>
+        <File path="resources/project/rootp.xml" value="b62b63f9"/>
+        <File path="resources/project/root" value="-1"/>
+        <File path="resources/project/uuid-984ea9cb-4ef7-46f3-84bd-75fc89a33f13.xml" value="b62b63f9"/>
+        <File path="resources/project" value="-1"/>
+        <File path="resources" value="-1"/>
+    </Files>
+    <MetadataNode>
+        <path value="ProjectData:type:Info">
+            <node name="Info">
+                <entry value="logging" key="Name"/>
+            </node>
+        </path>
+        <path value="Root:type:Categories">
+            <path value="FileClassCategory:type:Category">
+                <node name="Info">
+                    <entry value="None" key="DataType"/>
+                    <entry value="Classification" key="Name"/>
+                    <entry value="1" key="ReadOnly"/>
+                    <entry value="1" key="SingleValued"/>
+                </node>
+                <path value="artifact:type:Label">
+                    <node name="Info">
+                        <entry value="Artifact" key="Name"/>
+                        <entry value="READ_ONLY" key="ReadOnly"/>
+                    </node>
+                </path>
+                <path value="convenience:type:Label">
+                    <node name="Info">
+                        <entry value="Convenience" key="Name"/>
+                        <entry value="READ_ONLY" key="ReadOnly"/>
+                    </node>
+                </path>
+                <path value="derived:type:Label">
+                    <node name="Info">
+                        <entry value="Derived" key="Name"/>
+                        <entry value="READ_ONLY" key="ReadOnly"/>
+                    </node>
+                </path>
+                <path value="design:type:Label">
+                    <node name="Info">
+                        <entry value="Design" key="Name"/>
+                        <entry value="READ_ONLY" key="ReadOnly"/>
+                    </node>
+                </path>
+                <path value="none:type:Label">
+                    <node name="Info">
+                        <entry value="None" key="Name"/>
+                        <entry value="READ_ONLY" key="ReadOnly"/>
+                    </node>
+                </path>
+                <path value="other:type:Label">
+                    <node name="Info">
+                        <entry value="Other" key="Name"/>
+                        <entry value="READ_ONLY" key="ReadOnly"/>
+                    </node>
+                </path>
+                <path value="test:type:Label">
+                    <node name="Info">
+                        <entry value="Test" key="Name"/>
+                        <entry value="READ_ONLY" key="ReadOnly"/>
+                    </node>
+                </path>
+            </path>
+        </path>
+        <path value="Root:type:EntryPoints"/>
+        <path value="Root:type:Extensions"/>
+        <path value="Root:type:Files">
+            <path value="+logging:type:File">
+                <node name="Info"/>
+                <path value="1:type:DIR_SIGNIFIER">
+                    <node name="Info"/>
+                </path>
+                <path value="CommandWindowLogger.m:type:File">
+                    <node name="Info">
+                        <node name="Category">
+                            <entry value="FileClassCategory" key="UUID"/>
+                            <node name="Label">
+                                <entry value="design" key="UUID"/>
+                            </node>
+                        </node>
+                    </node>
+                </path>
+                <path value="DefaultLoggableClass.m:type:File">
+                    <node name="Info">
+                        <node name="Category">
+                            <entry value="FileClassCategory" key="UUID"/>
+                            <node name="Label">
+                                <entry value="design" key="UUID"/>
+                            </node>
+                        </node>
+                    </node>
+                </path>
+                <path value="ILoggable.m:type:File">
+                    <node name="Info">
+                        <node name="Category">
+                            <entry value="FileClassCategory" key="UUID"/>
+                            <node name="Label">
+                                <entry value="design" key="UUID"/>
+                            </node>
+                        </node>
+                    </node>
+                </path>
+                <path value="ILogger.m:type:File">
+                    <node name="Info">
+                        <node name="Category">
+                            <entry value="FileClassCategory" key="UUID"/>
+                            <node name="Label">
+                                <entry value="design" key="UUID"/>
+                            </node>
+                        </node>
+                    </node>
+                </path>
+                <path value="LogEvent.m:type:File">
+                    <node name="Info">
+                        <node name="Category">
+                            <entry value="FileClassCategory" key="UUID"/>
+                            <node name="Label">
+                                <entry value="design" key="UUID"/>
+                            </node>
+                        </node>
+                    </node>
+                </path>
+                <path value="LogEventFactory.m:type:File">
+                    <node name="Info">
+                        <node name="Category">
+                            <entry value="FileClassCategory" key="UUID"/>
+                            <node name="Label">
+                                <entry value="design" key="UUID"/>
+                            </node>
+                        </node>
+                    </node>
+                </path>
+                <path value="Severity.m:type:File">
+                    <node name="Info">
+                        <node name="Category">
+                            <entry value="FileClassCategory" key="UUID"/>
+                            <node name="Label">
+                                <entry value="design" key="UUID"/>
+                            </node>
+                        </node>
+                    </node>
+                </path>
+                <path value="UITextAreaLogger.asv:type:File">
+                    <node name="Info"/>
+                </path>
+                <path value="UITextAreaLogger.m:type:File">
+                    <node name="Info">
+                        <node name="Category">
+                            <entry value="FileClassCategory" key="UUID"/>
+                            <node name="Label">
+                                <entry value="design" key="UUID"/>
+                            </node>
+                        </node>
+                    </node>
+                </path>
+            </path>
+            <path value=".gitattributes:type:File">
+                <node name="Info"/>
+            </path>
+            <path value=".gitignore:type:File">
+                <node name="Info"/>
+            </path>
+            <path value="Tests:type:File">
+                <node name="Info"/>
+                <path value="1:type:DIR_SIGNIFIER">
+                    <node name="Info"/>
+                </path>
+                <path value="logging:type:File">
+                    <node name="Info"/>
+                    <path value="1:type:DIR_SIGNIFIER">
+                        <node name="Info"/>
+                    </path>
+                    <path value="ILoggableTests.m:type:File">
+                        <node name="Info">
+                            <node name="Category">
+                                <entry value="FileClassCategory" key="UUID"/>
+                                <node name="Label">
+                                    <entry value="test" key="UUID"/>
+                                </node>
+                            </node>
+                        </node>
+                    </path>
+                    <path value="ILoggerTests.m:type:File">
+                        <node name="Info">
+                            <node name="Category">
+                                <entry value="FileClassCategory" key="UUID"/>
+                                <node name="Label">
+                                    <entry value="test" key="UUID"/>
+                                </node>
+                            </node>
+                        </node>
+                    </path>
+                    <path value="LogEventFactoryTests.m:type:File">
+                        <node name="Info">
+                            <node name="Category">
+                                <entry value="FileClassCategory" key="UUID"/>
+                                <node name="Label">
+                                    <entry value="test" key="UUID"/>
+                                </node>
+                            </node>
+                        </node>
+                    </path>
+                    <path value="helperClasses:type:File">
+                        <node name="Info"/>
+                        <path value="1:type:DIR_SIGNIFIER">
+                            <node name="Info"/>
+                        </path>
+                        <path value="LoggableClass.m:type:File">
+                            <node name="Info">
+                                <node name="Category">
+                                    <entry value="FileClassCategory" key="UUID"/>
+                                    <node name="Label">
+                                        <entry value="design" key="UUID"/>
+                                    </node>
+                                </node>
+                            </node>
+                        </path>
+                        <path value="LoggerClass.m:type:File">
+                            <node name="Info">
+                                <node name="Category">
+                                    <entry value="FileClassCategory" key="UUID"/>
+                                    <node name="Label">
+                                        <entry value="design" key="UUID"/>
+                                    </node>
+                                </node>
+                            </node>
+                        </path>
+                    </path>
+                </path>
+            </path>
+        </path>
+        <path value="Root:type:ProjectData"/>
+        <path value="Root:type:ProjectPath">
+            <path value="0c89ec47-9dab-4f23-8e2c-f999966e1756:type:Reference">
+                <node name="Info">
+                    <entry value="Tests" key="Ref"/>
+                    <entry value="Relative" key="Type"/>
+                </node>
+            </path>
+            <path value="9a1967ca-0895-4c6c-8af0-17beda03d0ef:type:Reference">
+                <node name="Info">
+                    <entry value="" key="Ref"/>
+                    <entry value="Relative" key="Type"/>
+                </node>
+            </path>
+            <path value="c2074af4-f097-48bf-876c-edb9b86adbf9:type:Reference">
+                <node name="Info">
+                    <entry value="Tests/logging/helperClasses" key="Ref"/>
+                    <entry value="Relative" key="Type"/>
+                </node>
+            </path>
+            <path value="c776c4d9-f406-47c8-9916-a993cf745e39:type:Reference">
+                <node name="Info">
+                    <entry value="Tests/logging" key="Ref"/>
+                    <entry value="Relative" key="Type"/>
+                </node>
+            </path>
+        </path>
+    </MetadataNode>
+    <Date value="2025. január 11. 21:24:29"/>
+</Info>
