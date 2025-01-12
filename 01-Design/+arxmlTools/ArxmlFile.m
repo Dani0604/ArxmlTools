@@ -35,7 +35,9 @@ classdef ArxmlFile  < logging.ILoggable
         end
     end
 
+    %% Comparison
     methods (Access = private)
+
         function equal = compareStruct(obj, structLeft, structRight, qualifiedPath)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
@@ -102,10 +104,10 @@ classdef ArxmlFile  < logging.ILoggable
                 % Compare struct
                 elseif isa(leftValue, "struct")
                     if ~isfield(leftValue, "SHORT_NAME")
-                        if isscalar(leftValue) && isscalar(rightValue)
-                            equal = equal && obj.compareStruct(leftValue, rightValue, qualifiedPath);
+                        if isscalar(leftValue) & isscalar(rightValue)
+                            equal = equal & obj.compareStruct(leftValue, rightValue, qualifiedPath);
                         elseif obj.isLeaf(leftValue)
-                             equal = equal && obj.compareLeafStructVectors(leftValue, rightValue, qualifiedPath, commonFields(ii));
+                             equal = equal & obj.compareLeafStructVectors(leftValue, rightValue, qualifiedPath, commonFields(ii));
                         else
                             % If there is no short name, and the value is
                             % not scalar, then we cannot identify the
@@ -114,7 +116,7 @@ classdef ArxmlFile  < logging.ILoggable
                                 "Path: '%s'", commonFields(ii), qualifiedPath));
                         end
                     else
-                        equal = equal && obj.compareStructVectors(leftValue, rightValue, qualifiedPath);
+                        equal = equal & obj.compareStructVectors(leftValue, rightValue, qualifiedPath);
                     end
                 else
                     obj.warning(sprintf("Data type for property: '%s' shall be struct or string! " + ...
@@ -153,7 +155,7 @@ classdef ArxmlFile  < logging.ILoggable
 
             commonShortNames = intersect(leftShortNames, rightShortNames);
             for shortName = commonShortNames
-                equal = equal && obj.compareStruct(structLeft([structLeft.SHORT_NAME] == shortName), ...
+                equal = equal & obj.compareStruct(structLeft([structLeft.SHORT_NAME] == shortName), ...
                     structRight([structRight.SHORT_NAME] == shortName), ...
                     qualifiedPath);
             end
@@ -196,14 +198,19 @@ classdef ArxmlFile  < logging.ILoggable
 
             for ii = 1:length(fieldNames)
                 if isstruct(s(1).(fieldNames{ii}))
-                    isLeaf = isLeaf && obj.isLeaf(s(1).(fieldNames{ii}));
+                    isLeaf = isLeaf & obj.isLeaf(s(1).(fieldNames{ii}));
                 end
             end
         end
         
-       
- end
+    end
 
+    %% Merge
+    methods (Access = private)
+        
+    end
+
+    %% Abstract method implementtions
     methods (Access = public)
         % Abstract method which gives back an identifier of the logger
         % object (e.g., its name)
