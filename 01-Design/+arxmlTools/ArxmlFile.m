@@ -44,9 +44,15 @@ classdef ArxmlFile  < logging.ILoggable
                 qualifiedPath (1,1) string
             end
             equal = true;
-            leftFieldNames = fieldnames(structLeft);
-            rightFieldNames = fieldnames(structRight);
-            
+
+           
+            leftFieldNames = string(fieldnames(structLeft));
+            rightFieldNames = string(fieldnames(structRight));
+            % Filter out missing fields
+            leftFieldNames = leftFieldNames(arrayfun(@(v) ~any(ismissing(structLeft.(v))), leftFieldNames));
+            rightFieldNames = rightFieldNames(arrayfun(@(v) ~any(ismissing(structRight.(v))), rightFieldNames));
+        
+
             % Update qualifiedPath
             if isfield(structLeft, "SHORT_NAME")
                 qualifiedPath = qualifiedPath + structLeft.SHORT_NAME + "/";
@@ -72,15 +78,24 @@ classdef ArxmlFile  < logging.ILoggable
             commonFields = intersect(leftFieldNames, rightFieldNames);
 
             for ii = 1:length(commonFields)
-                leftValue = structLeft.(commonFields{ii});
-                rightValue = structRight.(commonFields{ii});
+                leftValue = structLeft.(commonFields(ii));
+                rightValue = structRight.(commonFields(ii));
                 
                 % Compare string
                 if isa(leftValue, "string")
                     if ~strcmp(leftValue, rightValue)
                         obj.warning(sprintf("Incorrect value found! Path: " + ...
                             "'%s', Property: '%s', LeftValue: '%s', RightValue: '%s'", ...
-                            qualifiedPath, commonFields{ii}, leftValue, rightValue));
+                            qualifiedPath, commonFields(ii), leftValue, rightValue));
+                        equal = false;
+                    end
+                
+                % Compare double
+                elseif isa(leftValue, "double")
+                    if leftValue ~= rightValue
+                        obj.warning(sprintf("Incorrect value found! Path: " + ...
+                            "'%s', Property: '%s', LeftValue: '%d', RightValue: '%d'", ...
+                            qualifiedPath, commonFields(ii), leftValue, rightValue));
                         equal = false;
                     end
                 
@@ -89,32 +104,80 @@ classdef ArxmlFile  < logging.ILoggable
                     if ~isfield(leftValue, "SHORT_NAME")
                         if isscalar(leftValue) && isscalar(rightValue)
                             equal = equal && obj.compareStruct(leftValue, rightValue, qualifiedPath);
+                        elseif obj.isLeaf(leftValue)
+                             equal = equal && obj.compareLeafStructVectors(leftValue, rightValue, qualifiedPath);
                         else
                             % If there is no short name, and the value is
                             % not scalar, then we cannot identify the
                             % matching pairs.
-                            obj.warning(sprintf("Cannot compare property '%s' as it is not scalar, and doesn't have as SHORT-NAME!" + ...
-                                "Path: '%s'", commonFields{ii}, qualifiedPath));
+                            obj.warning(sprintf("Cannot compare property '%s' as it is not scalar, and doesn't have as SHORT-NAME! " + ...
+                                "Path: '%s'", commonFields(ii), qualifiedPath));
                         end
                     else
                         equal = equal && obj.compareStructVectors(leftValue, rightValue, qualifiedPath);
                     end
                 else
                     obj.warning(sprintf("Data type for property: '%s' shall be struct or string! " + ...
-                        "Path: '%s', Data type: %s", commonFields{ii}, qualifiedPath, class(leftValue)));
+                        "Path: '%s', Data type: %s", commonFields(ii), qualifiedPath, class(leftValue)));
                 end
             end
         end
 
-        function compareStructVectors(obj, structLeft, structRight, qualifiedPath)
+        function equal = compareStructVectors(obj, structLeft, structRight, qualifiedPath)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
                 structLeft (:,1) struct
                 structRight (:,1) struct
                 qualifiedPath (1,1) string
             end
+            equal = true;
+
+            leftShortNames = [structLeft.SHORT_NAME];
+            rightShortNames = [structRight.SHORT_NAME];
+           
+            % Check additional elements
+            additionalElements = setdiff(leftShortNames, rightShortNames);
+            if ~isempty(additionalElements)
+                cellfun(@(elementName) obj.warning(sprintf("Additional ARXML element detected! " + ...
+                    "Path: '%s', ElementName '%s'", qualifiedPath, elementName)), additionalElements);
+                equal = false;
+            end
+
+            % Check missing fields
+            missingElements = setdiff(rightShortNames, leftShortNames);
+            if ~isempty(missingElements)
+                cellfun(@(elementName) obj.warning(sprintf("Missing ARXML element detected! " + ...
+                    "Path: '%s', ElementName '%s'", qualifiedPath, elementName)), missingElements );
+                equal = false;
+            end
+
+            commonShortNames = intersect(leftShortNames, rightShortNames);
+            for shortName = commonShortNames
+                equal = equal && obj.compareStruct(structLeft([structLeft.SHORT_NAME] == shortName), ...
+                    structRight([structRight.SHORT_NAME] == shortName), ...
+                    qualifiedPath);
+            end
+        end
+   
+        function equal = compareLeafStructVectors(obj, structLeft, structRight, qualifiedPath)
+            equal = true;
+
             
-            
+        end
+
+        function isLeaf = isLeaf(obj, s)
+            isLeaf = true;
+            fieldNames = fieldnames(s);
+            if any(strcmp(fieldNames,"SHORT_NAME"))
+                isLeaf = false;
+                return;
+            end
+
+            for ii = 1:length(fieldNames)
+                if isstruct(s(1).(fieldNames{ii}))
+                    isLeaf = isLeaf && obj.isLeaf(s(1).(fieldNames{ii}));
+                end
+            end
         end
     end
 
