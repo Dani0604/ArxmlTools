@@ -65,6 +65,32 @@ classdef ArxmlComparisonTests < matlab.unittest.TestCase
             testCase.comparisonShallPass(leftArxml, rightArxml);
         end
    
+        function ShallFailWithModifiedComplexLeafElements(testCase)
+            %% Setup
+            leftArxml = which("myArchitecture_datatype_complexLeaf.arxml");
+            rightArxml = which("myArchitecture_datatype_complexLeafModified.arxml");
+            
+            %% Method + Assertion
+            testCase.comparisonShallFail(leftArxml, rightArxml);
+        end
+
+        function ShallFailWithAdditionalComplexLeafElements(testCase)
+            %% Setup
+            leftArxml = which("myArchitecture_datatype_complexLeaf.arxml");
+            rightArxml = which("myArchitecture_datatype_complexLeafMissingElement.arxml");
+            
+            %% Method + Assertion
+            testCase.comparisonShallFail(leftArxml, rightArxml);
+        end
+        
+        function ShallFailWithMissingComplexLeafElements(testCase)
+            %% Setup
+            leftArxml = which("myArchitecture_datatype_complexLeaf.arxml");
+            rightArxml = which("myArchitecture_datatype_complexLeafAdditionalElement.arxml");
+            
+            %% Method + Assertion
+            testCase.comparisonShallFail(leftArxml, rightArxml);
+        end
    end
 
    methods (Access=private)

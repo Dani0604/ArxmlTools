@@ -124,6 +124,13 @@ Model Checksum               : 2700282722 1338902938 392374028 2143568318
                                             <VT>Enum2_enum3</VT>
                                         </COMPU-CONST>
                                     </COMPU-SCALE>
+                                       <COMPU-SCALE>
+                                        <LOWER-LIMIT INTERVAL-TYPE="CLOSED">3</LOWER-LIMIT>
+                                        <UPPER-LIMIT INTERVAL-TYPE="CLOSED">3</UPPER-LIMIT>
+                                        <COMPU-CONST>
+                                            <VT>Enum2_enum4</VT>
+                                        </COMPU-CONST>
+                                    </COMPU-SCALE>
                                 </COMPU-SCALES>
                             </COMPU-INTERNAL-TO-PHYS>
                         </COMPU-METHOD>
