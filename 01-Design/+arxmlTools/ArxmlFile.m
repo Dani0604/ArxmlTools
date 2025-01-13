@@ -7,6 +7,7 @@ classdef ArxmlFile  < logging.ILoggable
 
     properties (Access = private) 
         logger (1,1) logging.CommandWindowLogger
+        filters (:,1)
     end
     
     methods (Access = public)
@@ -63,7 +64,7 @@ classdef ArxmlFile  < logging.ILoggable
             % Check additional fields
             additionalFields = setdiff(leftFieldNames, rightFieldNames);
             if ~isempty(additionalFields)
-                cellfun(@(fieldName) obj.warning(sprintf("Additional ARXML object detected! " + ...
+                arrayfun(@(fieldName) obj.warning(sprintf("Additional ARXML object detected! " + ...
                     "Path: '%s', ObjectName '%s'", qualifiedPath, fieldName)), additionalFields);
                 equal = false;
             end
@@ -71,7 +72,7 @@ classdef ArxmlFile  < logging.ILoggable
             % Check missing fields
             missingFields = setdiff(rightFieldNames, leftFieldNames);
             if ~isempty(missingFields )
-                cellfun(@(fieldName) obj.warning(sprintf("Missing ARXML object detected! " + ...
+                arrayfun(@(fieldName) obj.warning(sprintf("Missing ARXML object detected! " + ...
                     "Path: '%s', ObjectName '%s'", qualifiedPath, fieldName)), missingFields );
                 equal = false;
             end
@@ -84,8 +85,8 @@ classdef ArxmlFile  < logging.ILoggable
                 rightValue = structRight.(commonFields(ii));
                 
                 % Compare string
-                if isa(leftValue, "string")
-                    if ~strcmp(leftValue, rightValue)
+                if isa(leftValue, "string") 
+                    if ~strcmp(leftValue, rightValue) && ~strcmp(commonFields(ii), "UUIDAttribute")
                         obj.warning(sprintf("Incorrect value found! Path: " + ...
                             "'%s', Property: '%s', LeftValue: '%s', RightValue: '%s'", ...
                             qualifiedPath, commonFields(ii), leftValue, rightValue));
@@ -104,7 +105,7 @@ classdef ArxmlFile  < logging.ILoggable
                 % Compare struct
                 elseif isa(leftValue, "struct")
                     if ~isfield(leftValue, "SHORT_NAME")
-                        if isscalar(leftValue) & isscalar(rightValue)
+                        if isscalar(leftValue) && isscalar(rightValue)
                             equal = equal & obj.compareStruct(leftValue, rightValue, qualifiedPath);
                         elseif obj.isLeaf(leftValue)
                              equal = equal & obj.compareLeafStructVectors(leftValue, rightValue, qualifiedPath, commonFields(ii));
