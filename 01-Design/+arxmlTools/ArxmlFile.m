@@ -6,7 +6,7 @@ classdef ArxmlFile  < logging.ILoggable
     end
 
     properties (Access = private) 
-        logger (1,1) logging.CommandWindowLogger
+        logger (:,1) logging.ILogger
         filters (:,1)
     end
     
@@ -22,7 +22,10 @@ classdef ArxmlFile  < logging.ILoggable
             obj.Data = readstruct(obj.FilePath, "FileType", "xml");
             
             if opts.Logging
-                obj.logger.subscribe(obj, opts.Severity);
+                obj.logger(1) = logging.CommandWindowLogger;
+                obj.logger(1).subscribe(obj, opts.Severity);
+                obj.logger(2) = logging.FileLogger("LogFile", "./arxmlComparisonLogs.txt");
+                obj.logger(2).subscribe(obj, opts.Severity);
             end
             obj.info(sprintf("ArxmlFile object created: %s", obj.FilePath));
         end
@@ -32,9 +35,74 @@ classdef ArxmlFile  < logging.ILoggable
                 objLeft (1,1) arxmlTools.ArxmlFile
                 objRight (1,1) arxmlTools.ArxmlFile 
             end
+            objLeft.info(sprintf("-------------- Comparison for files %s and %s started --------------\n\n", objLeft.FilePath, objRight.FilePath));
             equal = compareStruct(objLeft, objLeft.Data, objRight.Data, "/");
+            objLeft.info(sprintf("\n-------------- Comparison for files %s and %s finished --------------\n\n", objLeft.FilePath, objRight.FilePath));
         end
+
+        function open(obj)
+            arguments (Input)
+                obj (1,1) arxmlTools.ArxmlFile
+            end
+            edit(obj.FilePath);
+        end
+
+        function export(obj, path)
+            arguments (Input)
+                obj (1,1) arxmlTools.ArxmlFile
+                path (1,1) string {mustBeFile} = obj.FilePath
+            end
+
+            writestruct(obj.Data, path, "FileType", "xml","StructNodeName", "AUTOSAR");
+
+            lines = readlines(path);
+
+            % Correct Texts fields
+            idx = find(contains(lines, "<Text>"));
+            texts = extractBetween(lines(idx), "<Text>", "</Text>");
+            lines(idx-1) = lines(idx-1) + texts + erase(lines(idx+1), " ");
+            lines([idx;idx+1]) = [];
+
+            % Correct property names: '_'->'-'
+            xmlPropsCell = regexp(lines,"<(/?\w+)[^>]*>", "tokens");
+            for ii = 1:length(xmlPropsCell)
+                xmlProps =  [xmlPropsCell{ii}{:}];
+                if ~isempty(xmlProps)
+                    lines(ii) = replace(lines(ii), xmlProps(1), replace(xmlProps(1), "_", "-"));                    
+                end
+            end
+            
+            writelines(lines, path)
+        end
+        
+        function add(obj, type, element, qualifiedPath)
+            arguments (Input)
+                obj (1,1) arxmlTools.ArxmlFile
+                type (1,1) string
+                element (:,1) struct
+                qualifiedPath (1,1) 
+            end
+        end
+
+        function modify(obj, type, element, qualifiedPath, keys)
+            arguments (Input)
+                obj (1,1) arxmlTools.ArxmlFile
+                type (1,1) string
+                element (:,1) struct
+                qualifiedPath (1,1)
+                keys (:,1) string = "SHORT-NAME" % Keys to identify an element in an array
+            end
+
+
+
+
+        end
+
     end
+
+
+    %% Modification
+
 
     %% Comparison
     methods (Access = private)
@@ -105,7 +173,7 @@ classdef ArxmlFile  < logging.ILoggable
                 % Compare struct
                 elseif isa(leftValue, "struct")
                     if ~isfield(leftValue, "SHORT_NAME")
-                        if isscalar(leftValue) && isscalar(rightValue)
+                        if isscalar(leftValue) && isscalar(rightValue) 
                             equal = equal & obj.compareStruct(leftValue, rightValue, qualifiedPath);
                         elseif obj.isLeaf(leftValue)
                              equal = equal & obj.compareLeafStructVectors(leftValue, rightValue, qualifiedPath, commonFields(ii));
@@ -164,7 +232,9 @@ classdef ArxmlFile  < logging.ILoggable
    
         function equal = compareLeafStructVectors(obj, structLeft, structRight, qualifiedPath, propertyName)
             equal = true;
-            
+%             if strcmp(propertyName, "NONQUEUED_SENDER_COM_SPEC") || strcmp(propertyName, "NONQUEUED_RECEIVER_COM_SPEC")
+%                 return;
+%             end
             idx = zeros(length(structLeft), length(structRight));
             for ii = 1:length(structLeft)
                 for jj = 1:length(structRight)
