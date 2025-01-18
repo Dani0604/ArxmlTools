@@ -55,9 +55,10 @@ classdef ArxmlFile  < logging.ILoggable
                 obj (1,1) arxmlTools.ArxmlFile
                 path (1,1) string {mustBeFile} = obj.FilePath
             end
-
+            warning('off', 'MATLAB:io:xml:common:StartsWithXMLElementName');
             writestruct(obj.Data, path, "FileType", "xml","StructNodeName", "AUTOSAR");
-
+            warning('on', 'MATLAB:io:xml:common:StartsWithXMLElementName');
+            
             lines = readlines(path);
 
             % Correct Texts fields
@@ -78,17 +79,29 @@ classdef ArxmlFile  < logging.ILoggable
             writelines(lines, path)
         end
         
-        function add(obj, qualifiedPath, type, element)
+        function add(obj, qualifiedPath, field, type, element)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
                 qualifiedPath (1,1) string
+                field (1,1) string
                 type (1,1) string
                 element (:,1) struct
             end
-            [success, s] = obj.addElementToStruct(obj.Data, qualifiedPath, type, element);
 
-            if success
-                obj.Data = s;
+            [~, path] = obj.find(qualifiedPath);
+            
+            if ~isempty(path)
+                s = getfield(obj.Data, path{:});
+                if isfield(s, field) && isfield(s.(field), type)
+                    s.(field).(type) = [s.(field).(type); element];
+                else
+                    s.(field).(type) = element;
+                end
+
+                obj.Data = setfield(obj.Data, path{:}, s);
+                
+            else
+                obj.error(sprintf("Couldn't find object with qualifiedPath: '%s'", qualifiedPath));
             end
         end
 
@@ -143,6 +156,11 @@ classdef ArxmlFile  < logging.ILoggable
     %% Comparison
     methods (Access = private)
 
+        function equal = compareElement(obj, leftValue, rightValue)
+            
+        
+        end
+        
         function equal = compareStruct(obj, structLeft, structRight, qualifiedPath)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
@@ -319,7 +337,6 @@ classdef ArxmlFile  < logging.ILoggable
 
     %% Find 
     methods (Access = private)
-
         function [success, path] = findInStruct(obj, s, qualifiedPath)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
@@ -354,20 +371,15 @@ classdef ArxmlFile  < logging.ILoggable
                 for jj = 1:length(s.(fieldName))
                     [success, p] = obj.findInStruct(getfield(s, fieldName, {jj}), qualifiedPath);
                     if success
-                        path = [fieldName {{jj}} p];
+                        if length(s.(fieldName)) > 1
+                            path = [fieldName {{jj}} p];
+                        else
+                            path = [fieldName p];
+                        end
                         return;
                     end
                 end
             end
-        end
-
-        function f = getFieldsWithShortName(obj, s)
-            arguments (Input)
-                obj (1,1) arxmlTools.ArxmlFile
-                s (1,1) struct
-            end
-            f = fieldnames(s);
-
         end
     end
     %% Abstract method implementtions

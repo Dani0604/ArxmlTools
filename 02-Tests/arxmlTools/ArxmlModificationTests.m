@@ -21,11 +21,12 @@ classdef ArxmlModificationTests < matlab.unittest.TestCase
             ARPackage.ELEMENTS = [];
             ARPackage.SHORT_NAME = "MyPackage";
             %% Method
-            arxml.add("Components", "AR_PACKAGE", ARPackage);
+            arxml.add("/Components", "AR_PACKAGES", "AR_PACKAGE", ARPackage);
             %% Assertion
-            arxml.export;
-            arxml = arxmlTools.ArxmlFile(testCase.FilePath);
-            arxml.Data
+            testCase.assertTrue(isfield(arxml.Data.AR_PACKAGES.AR_PACKAGE, "AR_PACKAGES"));
+            testCase.assertTrue(isfield(arxml.Data.AR_PACKAGES.AR_PACKAGE.AR_PACKAGES, "AR_PACKAGE"))
+            testCase.assertThat(arxml.Data.AR_PACKAGES.AR_PACKAGE.AR_PACKAGES.AR_PACKAGE, ...
+                matlab.unittest.constraints.IsEqualTo(ARPackage));
             %% Teardown
             
         end
