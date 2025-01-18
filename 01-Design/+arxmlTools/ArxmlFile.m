@@ -14,18 +14,21 @@ classdef ArxmlFile  < logging.ILoggable
         function obj = ArxmlFile(filePath, opts)
             arguments (Input)
                 filePath (1,1) string {mustBeFile}
-                opts.Logging (1,1) logical = true
+                opts.CWLogging (1,1) logical = true
+                opts.FileLogging (1,1) logical = false
                 opts.Severity (1,1) logging.Severity = logging.Severity.Info
             end
 
             obj.FilePath = filePath;
             obj.Data = readstruct(obj.FilePath, "FileType", "xml");
             
-            if opts.Logging
+            if opts.CWLogging
                 obj.logger(1) = logging.CommandWindowLogger;
                 obj.logger(1).subscribe(obj, opts.Severity);
-                obj.logger(2) = logging.FileLogger("LogFile", "./arxmlComparisonLogs.txt");
-                obj.logger(2).subscribe(obj, opts.Severity);
+            end
+            if opts.FileLogging
+                obj.logger(end+1) = logging.FileLogger("LogFile", "./arxmlComparisonLogs.txt");
+                obj.logger(end+1).subscribe(obj, opts.Severity);
             end
             obj.info(sprintf("ArxmlFile object created: %s", obj.FilePath));
         end
@@ -75,12 +78,17 @@ classdef ArxmlFile  < logging.ILoggable
             writelines(lines, path)
         end
         
-        function add(obj, type, element, qualifiedPath)
+        function add(obj, qualifiedPath, type, element)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
+                qualifiedPath (1,1) string
                 type (1,1) string
                 element (:,1) struct
-                qualifiedPath (1,1) 
+            end
+            [success, s] = obj.addElementToStruct(obj.Data, qualifiedPath, type, element);
+
+            if success
+                obj.Data = s;
             end
         end
 
@@ -93,16 +101,44 @@ classdef ArxmlFile  < logging.ILoggable
                 keys (:,1) string = "SHORT-NAME" % Keys to identify an element in an array
             end
 
-
-
+           
 
         end
 
+        function [outStruct, path] = find(obj, qualifiedPath)
+            arguments (Input)
+                obj (1,1) arxmlTools.ArxmlFile
+                qualifiedPath (1,1) string
+            end
+            [success, path] = obj.findInStruct(obj.Data, split(strip(qualifiedPath,"left", "/"), "/"));
+            if success
+                outStruct = getfield(obj.Data, path{:});
+            else
+                outStruct = [];
+            end
+        end
     end
 
-
     %% Modification
+    methods (Access = private)
+        function [success, subStruct] = addElementToStruct(obj, s, qualifiedPath, type, element)
+            arguments (Input)
+                obj (1,1) 
+                s (1,1) struct
+                qualifiedPath (1,1) string
+                type (1,1) string
+                element (1,1) struct
+            end
 
+            fieldNames = string(fieldnames(s));
+            fieldTypes = arrayfun(@(field) string(class(s.(field))), fieldNames);
+            if ~isempty(qualifiedPath)
+                path = split(strip(qualifiedPath,"left", "/"), "/");
+                
+            end
+
+        end
+    end
 
     %% Comparison
     methods (Access = private)
@@ -281,6 +317,59 @@ classdef ArxmlFile  < logging.ILoggable
         
     end
 
+    %% Find 
+    methods (Access = private)
+
+        function [success, path] = findInStruct(obj, s, qualifiedPath)
+            arguments (Input)
+                obj (1,1) arxmlTools.ArxmlFile
+                s (1,1) struct
+                qualifiedPath (:,1) string
+            end
+            arguments (Output)
+                success (1,1) logical
+                path cell
+            end
+            success = false;
+            path = {};
+
+            if isfield(s, "SHORT_NAME") 
+                if ~strcmp(s.SHORT_NAME, qualifiedPath(1))
+                    return;
+                elseif strcmp(s.SHORT_NAME, qualifiedPath(1)) && isscalar(qualifiedPath)
+                    success = true;
+                    return;
+                else
+                    qualifiedPath = qualifiedPath(2:end);
+                end
+            end
+
+            fieldNames = fieldnames(s);
+            fieldTypes = cellfun(@(field) string(class(s.(field))), fieldNames);
+
+            fieldNames = fieldNames(fieldTypes == "struct");
+
+            for ii = 1:length(fieldNames)
+                fieldName = fieldNames{ii};
+                for jj = 1:length(s.(fieldName))
+                    [success, p] = obj.findInStruct(getfield(s, fieldName, {jj}), qualifiedPath);
+                    if success
+                        path = [fieldName {{jj}} p];
+                        return;
+                    end
+                end
+            end
+        end
+
+        function f = getFieldsWithShortName(obj, s)
+            arguments (Input)
+                obj (1,1) arxmlTools.ArxmlFile
+                s (1,1) struct
+            end
+            f = fieldnames(s);
+
+        end
+    end
     %% Abstract method implementtions
     methods (Access = public)
         % Abstract method which gives back an identifier of the logger
