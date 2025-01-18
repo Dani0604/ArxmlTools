@@ -385,29 +385,5 @@ classdef ArxmlFile  < logging.ILoggable
         end
     end
 
-    methods (Static)
-         function str = struct2String(s, tabs)
-            arguments (Input)
-                s (1,1) struct
-                tabs (1,1) string = ""
-            end
-            str = "";
-            fieldNames = string(fieldnames(s));
-            for fieldName = fieldNames
-                value = s.(fieldName);
-                  % Compare string
-                if isa(value, "string")
-                    str = sprintf("%s\n%s%s : '%s'",str, tabs, fieldName, value);
-                % Compare double
-                elseif isa(leftValue, "double")
-                    str = sprintf("%s\n%s%s : '%s'",str, tabs, fieldName, value);
-                    % Compare struct
-                elseif isa(leftValue, "struct")
-                end
-                
-            end
-
-        end
-    end
 end
 
