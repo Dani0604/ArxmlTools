@@ -1,15 +1,15 @@
 classdef ArxmlFile  < logging.ILoggable
-    
+
     properties (SetAccess = private)
         FilePath (:,1) string % Can be non-scalar, if merged
         Data (1,1) struct
     end
 
-    properties (Access = private) 
-        logger (:,1) logging.ILogger
+    properties (Access = private)
+        logger (:,1) logging.ILogger = logging.CommandWindowLogger.empty
         filters (:,1)
     end
-    
+
     methods (Access = public)
         function obj = ArxmlFile(filePath, opts)
             arguments (Input)
@@ -21,7 +21,7 @@ classdef ArxmlFile  < logging.ILoggable
 
             obj.FilePath = filePath;
             obj.Data = readstruct(obj.FilePath, "FileType", "xml");
-            
+
             if opts.CWLogging
                 obj.logger(1) = logging.CommandWindowLogger;
                 obj.logger(1).subscribe(obj, opts.Severity);
@@ -32,11 +32,11 @@ classdef ArxmlFile  < logging.ILoggable
             end
             obj.info(sprintf("ArxmlFile object created: %s", obj.FilePath));
         end
-        
+
         function equal = compare(objLeft, objRight)
             arguments (Input)
                 objLeft (1,1) arxmlTools.ArxmlFile
-                objRight (1,1) arxmlTools.ArxmlFile 
+                objRight (1,1) arxmlTools.ArxmlFile
             end
             objLeft.info(sprintf("-------------- Comparison for files %s and %s started --------------\n\n", objLeft.FilePath, objRight.FilePath));
             equal = compareStruct(objLeft, objLeft.Data, objRight.Data, "/");
@@ -72,13 +72,13 @@ classdef ArxmlFile  < logging.ILoggable
             for ii = 1:length(xmlPropsCell)
                 xmlProps =  [xmlPropsCell{ii}{:}];
                 if ~isempty(xmlProps)
-                    lines(ii) = replace(lines(ii), xmlProps(1), replace(xmlProps(1), "_", "-"));                    
+                    lines(ii) = replace(lines(ii), xmlProps(1), replace(xmlProps(1), "_", "-"));
                 end
             end
-            
+
             writelines(lines, path)
         end
-        
+
         function add(obj, qualifiedPath, field, type, element)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
@@ -89,7 +89,7 @@ classdef ArxmlFile  < logging.ILoggable
             end
 
             [~, path] = obj.find(qualifiedPath);
-            
+
             if ~isempty(path)
                 s = getfield(obj.Data, path{:});
                 if isfield(s, field) && isfield(s.(field), type)
@@ -99,7 +99,7 @@ classdef ArxmlFile  < logging.ILoggable
                 end
 
                 obj.Data = setfield(obj.Data, path{:}, s);
-                
+
             else
                 obj.error(sprintf("Couldn't find object with qualifiedPath: '%s'", qualifiedPath));
             end
@@ -112,16 +112,16 @@ classdef ArxmlFile  < logging.ILoggable
                 sIn (:,1) struct
                 keys (:,1) string = "SHORT-NAME" % Keys to identify an element in an array
             end
-           
+
             [~, path] = obj.find(qualifiedPath);
             if ~isempty(path)
                 s = getfield(obj.Data, path{:});
                 fieldNames = string(fieldnames(sIn));
-                for field = fieldNames
+                for field = fieldNames'
                     s.(field) = sIn.(field);
                 end
                 obj.Data = setfield(obj.Data, path{:}, s);
-                
+
             else
                 obj.error(sprintf("Couldn't find object with qualifiedPath: '%s'", qualifiedPath));
             end
@@ -145,7 +145,7 @@ classdef ArxmlFile  < logging.ILoggable
     methods (Access = private)
         function [success, subStruct] = addElementToStruct(obj, s, qualifiedPath, type, element)
             arguments (Input)
-                obj (1,1) 
+                obj (1,1)
                 s (1,1) struct
                 qualifiedPath (1,1) string
                 type (1,1) string
@@ -162,7 +162,7 @@ classdef ArxmlFile  < logging.ILoggable
 
     %% Comparison
     methods (Access = private)
-        
+
         function equal = compareStruct(obj, structLeft, structRight, qualifiedPath)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
@@ -172,13 +172,13 @@ classdef ArxmlFile  < logging.ILoggable
             end
             equal = true;
 
-           
+
             leftFieldNames = string(fieldnames(structLeft));
             rightFieldNames = string(fieldnames(structRight));
             % Filter out missing fields
             leftFieldNames = leftFieldNames(arrayfun(@(v) ~any(ismissing(structLeft.(v))), leftFieldNames));
             rightFieldNames = rightFieldNames(arrayfun(@(v) ~any(ismissing(structRight.(v))), rightFieldNames));
-        
+
 
             % Update qualifiedPath
             if isfield(structLeft, "SHORT_NAME")
@@ -207,32 +207,32 @@ classdef ArxmlFile  < logging.ILoggable
             for ii = 1:length(commonFields)
                 leftValue = structLeft.(commonFields(ii));
                 rightValue = structRight.(commonFields(ii));
-                
+
                 % Compare string
-                if isa(leftValue, "string") 
+                if isa(leftValue, "string") && isa(rightValue, "string")
                     if ~strcmp(leftValue, rightValue) && ~strcmp(commonFields(ii), "UUIDAttribute")
                         obj.warning(sprintf("Incorrect value found! Path: " + ...
                             "'%s', Property: '%s', LeftValue: '%s', RightValue: '%s'", ...
                             qualifiedPath, commonFields(ii), leftValue, rightValue));
                         equal = false;
                     end
-                
-                % Compare double
-                elseif isa(leftValue, "double")
+
+                    % Compare double
+                elseif isa(leftValue, "double") && isa(rightValue, "double")
                     if leftValue ~= rightValue
                         obj.warning(sprintf("Incorrect value found! Path: " + ...
                             "'%s', Property: '%s', LeftValue: '%d', RightValue: '%d'", ...
                             qualifiedPath, commonFields(ii), leftValue, rightValue));
                         equal = false;
                     end
-                
-                % Compare struct
-                elseif isa(leftValue, "struct")
+
+                    % Compare struct
+                elseif isa(leftValue, "struct") && isa(rightValue, "struct")
                     if ~isfield(leftValue, "SHORT_NAME")
-                        if isscalar(leftValue) && isscalar(rightValue) 
+                        if isscalar(leftValue) && isscalar(rightValue)
                             equal = equal & obj.compareStruct(leftValue, rightValue, qualifiedPath);
                         elseif obj.isLeaf(leftValue)
-                             equal = equal & obj.compareLeafStructVectors(leftValue, rightValue, qualifiedPath, commonFields(ii));
+                            equal = equal & obj.compareLeafStructVectors(leftValue, rightValue, qualifiedPath, commonFields(ii));
                         else
                             % If there is no short name, and the value is
                             % not scalar, then we cannot identify the
@@ -243,9 +243,18 @@ classdef ArxmlFile  < logging.ILoggable
                     else
                         equal = equal & obj.compareStructVectors(leftValue, rightValue, qualifiedPath);
                     end
+                elseif isa(leftValue, "struct") && rightValue==""
+                    obj.warning(sprintf("Additional ARXML element detected! " + ...
+                        "Path: '%s', PropertyName '%s', Element: \n%s", qualifiedPath, commonFields(ii), jsonencode(leftValue, "PrettyPrint", true)));
+                    equal = false;
+                elseif leftValue=="" && isa(rightValue, "struct")
+                    obj.warning(sprintf("Missing ARXML element detected! " + ...
+                        "Path: '%s', PropertyName '%s', Element: \n%s", qualifiedPath, commonFields(ii), jsonencode(rightValue, "PrettyPrint", true)))
+                    equal = false;
                 else
-                    obj.warning(sprintf("Data type for property: '%s' shall be struct or string! " + ...
+                    obj.error(sprintf("Data type for property: '%s' shall be struct, string or double! " + ...
                         "Path: '%s', Data type: %s", commonFields(ii), qualifiedPath, class(leftValue)));
+                    equal = false;
                 end
             end
         end
@@ -261,7 +270,7 @@ classdef ArxmlFile  < logging.ILoggable
 
             leftShortNames = [structLeft.SHORT_NAME];
             rightShortNames = [structRight.SHORT_NAME];
-           
+
             % Check additional elements
             additionalElements = setdiff(leftShortNames, rightShortNames);
             if ~isempty(additionalElements)
@@ -285,12 +294,12 @@ classdef ArxmlFile  < logging.ILoggable
                     qualifiedPath);
             end
         end
-   
+
         function equal = compareLeafStructVectors(obj, structLeft, structRight, qualifiedPath, propertyName)
             equal = true;
-%             if strcmp(propertyName, "NONQUEUED_SENDER_COM_SPEC") || strcmp(propertyName, "NONQUEUED_RECEIVER_COM_SPEC")
-%                 return;
-%             end
+            %             if strcmp(propertyName, "NONQUEUED_SENDER_COM_SPEC") || strcmp(propertyName, "NONQUEUED_RECEIVER_COM_SPEC")
+            %                 return;
+            %             end
             idx = zeros(length(structLeft), length(structRight));
             for ii = 1:length(structLeft)
                 for jj = 1:length(structRight)
@@ -329,15 +338,15 @@ classdef ArxmlFile  < logging.ILoggable
                 end
             end
         end
-        
+
     end
 
     %% Merge
     methods (Access = private)
-        
+
     end
 
-    %% Find 
+    %% Find
     methods (Access = private)
         function [success, path] = findInStruct(obj, s, qualifiedPath)
             arguments (Input)
@@ -352,7 +361,7 @@ classdef ArxmlFile  < logging.ILoggable
             success = false;
             path = {};
 
-            if isfield(s, "SHORT_NAME") 
+            if isfield(s, "SHORT_NAME")
                 if ~strcmp(s.SHORT_NAME, qualifiedPath(1))
                     return;
                 elseif strcmp(s.SHORT_NAME, qualifiedPath(1)) && isscalar(qualifiedPath)

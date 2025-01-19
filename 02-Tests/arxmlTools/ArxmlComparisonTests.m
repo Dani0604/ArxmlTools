@@ -91,6 +91,24 @@ classdef ArxmlComparisonTests < matlab.unittest.TestCase
             %% Method + Assertion
             testCase.comparisonShallFail(leftArxml, rightArxml);
         end
+
+        function ShallWorkWithEmptyObjectsOnRightSide(testCase)
+            %% Setup
+            leftArxml = which("myArchitecture_datatype.arxml");
+            rightArxml = which("myArchitecture_datatype_wEmptyObject.arxml");
+            
+            %% Method + Assertion
+            testCase.comparisonShallFail(leftArxml, rightArxml);
+        end
+
+        function ShallWorkWithEmptyObjectsOnLeftSide(testCase)
+            %% Setup
+            leftArxml = which("myArchitecture_datatype_wEmptyObject.arxml");
+            rightArxml = which("myArchitecture_datatype.arxml");
+            
+            %% Method + Assertion
+            testCase.comparisonShallFail(leftArxml, rightArxml);
+        end
    end
 
    methods (Access=private)
