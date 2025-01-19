@@ -1,0 +1,27 @@
+{
+    "DATA_ELEMENT_REF": {
+        "DESTAttribute": "VARIABLE-DATA-PROTOTYPE",
+        "Text": "/Interfaces/interface2/a"
+    },
+    "HANDLE_OUT_OF_RANGE": "NONE",
+    "USES_END_TO_END_PROTECTION": "false",
+    "ALIVE_TIMEOUT": 0,
+    "ENABLE_UPDATE": "false",
+    "HANDLE_NEVER_RECEIVED": "false",
+    "HANDLE_TIMEOUT_TYPE": "NONE",
+    "INIT_VALUE": {
+        "APPLICATION_VALUE_SPECIFICATION": {
+            "SHORT_LABEL": "DefaultInitValue_Enum1",
+            "CATEGORY": "VALUE",
+            "SW_VALUE_CONT": {
+                "UNIT_REF": {
+                    "DESTAttribute": "UNIT",
+                    "Text": "/DataTypes/Units/NoUnit"
+                },
+                "SW_VALUES_PHYS": {
+                    "VT": "Enum1_enum1"
+                }
+            }
+        }
+    }
+}

@@ -58,7 +58,7 @@ classdef ArxmlFile  < logging.ILoggable
             warning('off', 'MATLAB:io:xml:common:StartsWithXMLElementName');
             writestruct(obj.Data, path, "FileType", "xml","StructNodeName", "AUTOSAR");
             warning('on', 'MATLAB:io:xml:common:StartsWithXMLElementName');
-            
+
             lines = readlines(path);
 
             % Correct Texts fields
@@ -105,17 +105,26 @@ classdef ArxmlFile  < logging.ILoggable
             end
         end
 
-        function modify(obj, type, element, qualifiedPath, keys)
+        function modify(obj, qualifiedPath, sIn, keys)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
-                type (1,1) string
-                element (:,1) struct
                 qualifiedPath (1,1)
+                sIn (:,1) struct
                 keys (:,1) string = "SHORT-NAME" % Keys to identify an element in an array
             end
-
            
-
+            [~, path] = obj.find(qualifiedPath);
+            if ~isempty(path)
+                s = getfield(obj.Data, path{:});
+                fieldNames = string(fieldnames(sIn));
+                for field = fieldNames
+                    s.(field) = sIn.(field);
+                end
+                obj.Data = setfield(obj.Data, path{:}, s);
+                
+            else
+                obj.error(sprintf("Couldn't find object with qualifiedPath: '%s'", qualifiedPath));
+            end
         end
 
         function [outStruct, path] = find(obj, qualifiedPath)
@@ -147,19 +156,12 @@ classdef ArxmlFile  < logging.ILoggable
             fieldTypes = arrayfun(@(field) string(class(s.(field))), fieldNames);
             if ~isempty(qualifiedPath)
                 path = split(strip(qualifiedPath,"left", "/"), "/");
-                
             end
-
         end
     end
 
     %% Comparison
     methods (Access = private)
-
-        function equal = compareElement(obj, leftValue, rightValue)
-            
-        
-        end
         
         function equal = compareStruct(obj, structLeft, structRight, qualifiedPath)
             arguments (Input)
