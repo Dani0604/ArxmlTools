@@ -1,19 +1,59 @@
 classdef ArxmlFile  < logging.ILoggable
+% ArxmlFile Class for handling ARXML files
+    % This class provides functionalities for importing, comparing, modifying,
+    % exporting ARXML files, and finding ARXML elements based on fully qualified paths.
+    %
+    % Main Functionalities:
+    % - Importing ARXML files
+    % - Comparing ARXML files
+    % - Modifying ARXML files
+    % - Exporting ARXML files
+    % - Finding ARXML elements based on fully qualified paths
+    %
+    % Planned Functionalities:
+    % - ARXML file merging
+    %
+    % Properties:
+    % - FilePath: Path to the ARXML file
+    % - Data: Content of the ARXML file, stored in a MATLAB struct format
+    %
+    % Examples:
+    %   arxml = ArxmlFile("path/to/file.arxml");
+    %   arxml.compare(otherArxmlFile);
+    %   arxml.modify("/path/to/element", struct('Field', 'Value'));
+    %   arxml.export("path/to/exported/file.arxml");
+    %
+    % See also: logging.ILoggable, readstruct, writestruct
 
     properties (SetAccess = private)
-        FilePath (:,1) string % Can be non-scalar, if merged
-        Data (1,1) struct
+        FilePath (:,1) string % Arxml file path, can be non-scalar, if merged (TBD)
+        Data (1,1) struct % Arxml file content, stored in a MATLAB struct format
     end
 
     properties (Access = private)
-        logger (:,1) logging.ILogger = logging.CommandWindowLogger.empty
-        filters (:,1)
+        logger (:,1) logging.ILogger = logging.CommandWindowLogger.empty % Logger classes
     end
 
+    % Public interfaces
     methods (Access = public)
         function obj = ArxmlFile(filePath, opts)
+            % ArxmlFile Constructor
+            % Creates an instance of the ArxmlFile class.
+            %
+            % Syntax:
+            %   obj = ArxmlFile(filePath, opts)
+            %
+            % Inputs:
+            %   filePath - (string) Path to the ARXML file
+            %   opts - (struct) Options for logging
+            %       opts.CWLogging - (logical) Enable command window logging (default: true)
+            %       opts.FileLogging - (logical) Enable file logging (default: false)
+            %       opts.Severity - (logging.Severity) Logging severity level (default: logging.Severity.Info)
+            %
+            % Outputs:
+            %   obj - Instance of the ArxmlFile class
             arguments (Input)
-                filePath (1,1) string {mustBeFile}
+                filePath (1,1) string {mustBeFile} % 
                 opts.CWLogging (1,1) logical = true
                 opts.FileLogging (1,1) logical = false
                 opts.Severity (1,1) logging.Severity = logging.Severity.Info
@@ -28,12 +68,25 @@ classdef ArxmlFile  < logging.ILoggable
             end
             if opts.FileLogging
                 obj.logger(end+1) = logging.FileLogger("LogFile", "./arxmlComparisonLogs.txt");
-                obj.logger(end+1).subscribe(obj, opts.Severity);
+                obj.logger(end).subscribe(obj, opts.Severity);
             end
             obj.info(sprintf("ArxmlFile object created: %s", obj.FilePath));
         end
 
         function equal = compare(objLeft, objRight)
+            % compare Compares two ARXML files
+            % 
+            % Syntax:
+            %   equal = compare(arxmlFileLeft, arxmlFileRight)
+            %
+            % Inputs:
+            %   objLeft - (ArxmlFile) Left ARXML file object
+            %   objRight - (ArxmlFile) Right ARXML file object
+            %
+            % Outputs:
+            %   equal - (logical) True if the files are equal, false otherwise
+            %   Logs the results of the comparison with the Logger object
+            %   configured in the constructor
             arguments (Input)
                 objLeft (1,1) arxmlTools.ArxmlFile
                 objRight (1,1) arxmlTools.ArxmlFile
@@ -44,6 +97,13 @@ classdef ArxmlFile  < logging.ILoggable
         end
 
         function open(obj)
+            % open Opens the ARXML file in the MATLAB editor
+            %
+            % Syntax:
+            %   obj.open
+            %
+            % Inputs:
+            %   obj - (ArxmlFile) ARXML file object
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
             end
@@ -51,9 +111,17 @@ classdef ArxmlFile  < logging.ILoggable
         end
 
         function export(obj, path)
+            % export Exports the ARXMLFile object as an Arxml file to a specified path
+            %
+            % Syntax:
+            %   obj.export(path)
+            %
+            % Inputs:
+            %   obj - (ArxmlFile) ARXML file object
+            %   path - (string) Path to export the ARXML file (default: obj.FilePath)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
-                path (1,1) string {mustBeFile} = obj.FilePath
+                path (1,1) string = obj.FilePath
             end
             warning('off', 'MATLAB:io:xml:common:StartsWithXMLElementName');
             writestruct(obj.Data, path, "FileType", "xml","StructNodeName", "AUTOSAR");
@@ -76,10 +144,26 @@ classdef ArxmlFile  < logging.ILoggable
                 end
             end
 
+            % Correct xsi attributes
+            idx = startsWith(lines, "<AUTOSAR");
+            lines(idx) = replace(lines(idx), "xmlns_xsi", "xmlns:xsi");
+            lines(idx) = replace(lines(idx), "xsi_schemaLocation", "xsi:schemaLocation");
+
             writelines(lines, path)
         end
 
         function add(obj, qualifiedPath, field, type, element)
+            % add Adds an element to the ARXML file
+            %
+            % Syntax:
+            %   obj.add(qualifiedPath, field, type, element)
+            %
+            % Inputs:
+            %   obj - (ArxmlFile) ARXML file object
+            %   qualifiedPath - (string) Fully qualified path to the element
+            %   field - (string) Field name
+            %   type - (string) Type of the element
+            %   element - (struct) Element to add
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
                 qualifiedPath (1,1) string
@@ -106,6 +190,17 @@ classdef ArxmlFile  < logging.ILoggable
         end
 
         function modify(obj, qualifiedPath, sIn, keys)
+            % modify Modifies an element in the ARXML file
+            %
+            % Syntax:
+            %   obj.modify(qualifiedPath, sIn, keys)
+            %
+            % Inputs:
+            %   obj - (ArxmlFile) ARXML file object
+            %   qualifiedPath - (string) Fully qualified path to the element
+            %   sIn - (struct) Structure with new values
+            %   keys - (string) Keys to identify an element in an array
+            %   (default: "SHORT-NAME") (Not used yet)
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
                 qualifiedPath (1,1)
@@ -117,17 +212,45 @@ classdef ArxmlFile  < logging.ILoggable
             if ~isempty(path)
                 s = getfield(obj.Data, path{:});
                 fieldNames = string(fieldnames(sIn));
+                newFields = [];
                 for field = fieldNames'
+                    if ~isfield(s, field)
+                        newFields = [newFields field];
+                    end
                     s.(field) = sIn.(field);
                 end
-                obj.Data = setfield(obj.Data, path{:}, s);
-
+                % Need to add the new fields to struct arrays
+                if ~isempty(newFields) && ~isa(path{end}, 'char')
+                    sVector = getfield(obj.Data, path{1:end-1});
+                    for newField = newFields
+                        [sVector.(newField)] = deal([]);
+                    end
+                    sVector(path{end}{:}) = s;
+                    obj.Data = setfield(obj.Data, path{1:end-1}, sVector);
+                else
+                    obj.Data = setfield(obj.Data, path{:}, s);
+                end
             else
                 obj.error(sprintf("Couldn't find object with qualifiedPath: '%s'", qualifiedPath));
             end
         end
 
         function [outStruct, path] = find(obj, qualifiedPath)
+            % find Finds an element in the ARXML file based on the fully qualified path
+            %
+            % Syntax:
+            %   [outStruct, path] = find(obj, qualifiedPath)
+            %   
+            %   Usage of the path output:
+            %   outStruct = obj.Data(path{:});
+            %
+            % Inputs:
+            %   obj - (ArxmlFile) ARXML file object
+            %   qualifiedPath - (string) Fully qualified path to the element
+            %
+            % Outputs:
+            %   outStruct - (struct) The found element
+            %   path - (cell) Path to the found element within the ARXML structure
             arguments (Input)
                 obj (1,1) arxmlTools.ArxmlFile
                 qualifiedPath (1,1) string
